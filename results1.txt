@@ -1,4 +1,14 @@
 
+Contribuciones de las variables a PC1:
+                   PC1
+GDP           0.500506
+Life.expect   0.482873
+Pop.growth    0.475704
+Area         -0.124874
+Military     -0.188112
+Unemployment -0.271656
+Inflation    -0.406518
+
 Ratio de varianza explicada para cada componente:
 PC1: 46.10%
 PC2: 16.96%

@@ -37,10 +37,26 @@ plt.xlabel('Number of Components')
 plt.ylabel('Cumulative Explained Variance Ratio')
 plt.title('Cumulative Explained Variance')
 plt.grid(True)
+plt.ylim(0, 1.1)  
 plt.savefig('cumulative_variance.png')
 plt.close()
 
-# Create a biplot for PC1 vs PC2
+plt.figure(figsize=(12, 6))
+feature_contributions = pd.DataFrame(
+    pca.components_[0],
+    index=X.columns,
+    columns=['PC1']
+)
+feature_contributions_sorted = feature_contributions.sort_values('PC1', ascending=False)
+plt.bar(range(len(feature_contributions_sorted)), feature_contributions_sorted['PC1'])
+plt.xticks(range(len(feature_contributions_sorted)), feature_contributions_sorted.index, rotation=45, ha='right')
+plt.ylabel('Contribución a PC1')
+plt.title('Contribución de cada variable al Primer Componente Principal')
+plt.grid(True, axis='y')
+plt.tight_layout()
+plt.savefig('pc1_contributions.png')
+plt.close()
+
 plt.figure(figsize=(12, 8))
 plt.scatter(pca_df['PC1'], pca_df['PC2'])
 
@@ -54,14 +70,6 @@ plt.grid(True)
 plt.savefig('pca_biplot.png')
 plt.close()
 
-feature_contributions = pd.DataFrame(
-    pca.components_[0],
-    index=X.columns,
-    columns=['PC1']
-)
-print("\nContribuciones de las variables a PC1:")
-print(feature_contributions.sort_values('PC1', ascending=False))
-
 print("\nRatio de varianza explicada para cada componente:")
 for i, ratio in enumerate(explained_variance_ratio):
     print(f"PC{i+1}: {ratio:.2%}")
@@ -70,7 +78,6 @@ print("\nVarianza acumulada:")
 for i, ratio in enumerate(cumulative_variance_ratio):
     print(f"PC{i+1}: {ratio:.2%}")
 
-# Close the file and restore stdout
 f.close()
 sys.stdout = original_stdout
 
